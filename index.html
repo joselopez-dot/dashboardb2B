@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14243d">
+  <meta name="description" content="Dashboard ejecutivo B2B de Eduqia: pipeline, forecast, oportunidades y seguimiento comercial.">
+  <title>Eduqia · Dirección comercial B2B</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script defer src="data/demo.js"></script>
+  <script defer src="assets/app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">e<span>.</span></span><div><strong>EDUQIA</strong><span>INTELIGENCIA COMERCIAL</span></div></div>
+      <div class="side-section-title">DIRECCIÓN B2B</div>
+      <nav aria-label="Secciones del dashboard">
+        <a class="side-link active" href="#vision"><span class="side-icon">▦</span> Visión general</a>
+        <a class="side-link" href="#pipeline"><span class="side-icon">◫</span> Pipeline comercial</a>
+        <a class="side-link" href="#forecast"><span class="side-icon">◧</span> Forecast por línea</a>
+        <a class="side-link" href="#oportunidades"><span class="side-icon">☷</span> Oportunidades</a>
+        <a class="side-link" href="#calidad"><span class="side-icon">◈</span> Calidad del dato</a>
+      </nav>
+      <div class="sidebar-bottom"><span class="secure-indicator"></span><div><strong>Carga local y privada</strong><span>Tu Excel no se envía a GitHub</span></div></div>
+      <div class="sidebar-version">Dashboard B2B · Versión 1.0</div>
+    </aside>
+
+    <main class="main" id="vision">
+      <header class="topbar">
+        <div class="crumb"><button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button> Área comercial <span>/</span> <strong>Reporting B2B</strong></div>
+        <div class="top-actions"><span id="dataBadge" class="source-badge"><span class="dot"></span> Datos ficticios · Demo</span><button class="btn btn-subtle" id="restoreDemo" type="button" title="Volver a los datos ficticios">Restaurar demo</button><label class="btn btn-primary upload-btn" for="fileInput"><span class="upload-icon">↑</span> Cargar Excel</label><input id="fileInput" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></div>
+      </header>
+
+      <div class="content">
+        <section class="intro">
+          <div><div class="eyebrow">EDUQIA / VENTAS B2B</div><h1>Visión comercial</h1><p>Seguimiento del pipeline, previsión de ventas y oportunidades de negocio.</p></div>
+          <div class="period"><div class="period-label">REFERENCIA DE DATOS</div><div id="periodValue">Corte del archivo · sin mes especificado</div><div class="period-sub">Actualización al importar Excel</div></div>
+        </section>
+        <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+
+        <section aria-label="Indicadores ejecutivos" class="metric-grid" id="metrics"></section>
+        <section class="secondary-metrics" id="secondaryMetrics" aria-label="Otros indicadores"></section>
+
+        <div class="section-header" id="pipeline"><div><div class="section-kicker">01 / EMBUDO COMERCIAL</div><h2>Pipeline por etapa</h2><p>Valor bruto, probabilidad y previsión ponderada por fase.</p></div><div class="section-extra" id="pipelineSummary"></div></div>
+        <div class="pipeline-grid"><article class="panel stage-panel"><div class="panel-heading"><h3>Distribución del pipeline bruto</h3><span class="panel-hint">Valor estimado · €</span></div><div id="stageBars"></div></article><article class="panel"><div class="panel-heading"><h3>Previsión por etapa</h3><span class="panel-hint">Aplicando probabilidad</span></div><div id="weightedRows"></div></article></div>
+
+        <div class="section-header" id="forecast"><div><div class="section-kicker">02 / PREVISIÓN COMERCIAL</div><h2>Forecast por línea de negocio</h2><p>Previsión ponderada frente al objetivo comercial del archivo.</p></div><div class="section-extra"><label class="select-label" for="lineFilter">Línea</label><select id="lineFilter"><option value="all">Todas las líneas</option></select></div></div>
+        <div class="forecast-layout"><article class="panel forecast-panel"><div class="panel-heading"><h3>Previsión frente a objetivo</h3><div class="legend"><span><i class="legend-dot blue"></i> Ponderado</span><span><i class="legend-dot gray"></i> Objetivo</span></div></div><div id="forecastBars"></div></article><article class="panel forecast-side"><div class="panel-heading"><h3>Resumen de previsión</h3></div><div id="forecastSummary"></div></article></div>
+
+        <div class="section-header" id="oportunidades"><div><div class="section-kicker">03 / GESTIÓN COMERCIAL</div><h2>Seguimiento de oportunidades</h2><p>Registros de la pestaña «Clientes». No representan necesariamente todo el pipeline.</p></div><div class="section-extra" id="opportunitiesCount"></div></div>
+        <article class="panel table-panel"><div class="table-controls"><label class="search-field"><span aria-hidden="true">⌕</span><input id="searchInput" placeholder="Buscar centro o empresa" aria-label="Buscar centro o empresa" autocomplete="off"></label><select id="statusFilter" aria-label="Filtrar por estado"><option value="all">Todos los estados</option><option value="ok">En marcha</option><option value="attention">Requiere atención</option><option value="risk">En riesgo</option></select><button class="btn btn-subtle" id="exportCsv" type="button">↓ Exportar CSV</button></div><div class="table-scroll"><table><thead><tr><th>Centro / empresa</th><th>Línea</th><th class="num">Valor estimado</th><th>Etapa</th><th>Estado</th><th>Próximo paso</th><th>Seguimiento</th></tr></thead><tbody id="opportunityRows"></tbody></table></div><div class="table-footer" id="tableFooter"></div></article>
+
+        <div class="section-header" id="calidad"><div><div class="section-kicker">04 / CONTROL DE GESTIÓN</div><h2>Calidad y coherencia del dato</h2><p>Comparaciones entre resúmenes para evitar interpretar cifras distintas como equivalentes.</p></div></div>
+        <div id="dataQuality" class="quality-grid"></div>
+        <div class="method-note"><strong>Cómo se calcula</strong><span>El pipeline bruto suma el valor estimado por etapa. El ponderado es el valor × probabilidad de cada etapa. El forecast por línea se obtiene de la pestaña «Forecast». Los KPI ejecutivos proceden de «KPIs», por lo que pueden diferir si el Excel usa cortes o criterios distintos. La tasa de cierre y el ciclo de venta se muestran según el dato declarado en la plantilla; no se recalculan sin operaciones individuales.</span></div>
+        <footer class="footer"><span>EDUQIA · Reporting B2B</span><span id="footerSource">Vista de demostración · Datos ficticios</span></footer>
+      </div>
+    </main>
+  </div>
+  <div class="modal-backdrop" id="detailModal" hidden><div class="detail-dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><button class="modal-close" id="closeModal" aria-label="Cerrar detalle">×</button><div class="section-kicker">FICHA DE OPORTUNIDAD</div><h2 id="dialogTitle"></h2><div id="dialogContent"></div></div></div>
+</body>
+</html>
